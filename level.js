@@ -28,9 +28,7 @@ class Level {
 
   /** Give the remaining time for this level in milliseconds. */
   timeLeft() {
-    // TODO (Phase 5): Return the initial time minus the elapsed time, but
-    // never less than zero.
-    return 0;
+    return Math.max(0, this.time.initial - this.time.elapsed);
   }
 
   /**
@@ -40,14 +38,25 @@ class Level {
    **/
   draw(score, lives) {
     push();
-    // TODO (Phase 5): Draw the timer, score, and lives here, before the
-    // junk, so they're underneath everything else.
-    //  - Timer: top left, as minutes:seconds. Use this.timeLeft() and
-    //    timeToStringParts().
-    //  - Score: top right, in the same text style as the timer.
-    //  - Lives: bottom left, one small Magpie for each spare life (lives - 1
-    //    of them). Magpie.drawMagpie() draws around (0, 0), so translate and
-    //    scale first.
+    const time = timeToStringParts(this.timeLeft());
+    textSize(Level.HUD_TEXT_SIZE);
+    noStroke();
+    fill(255);
+    textAlign(LEFT, TOP);
+    text(`${time.minutes}:${time.seconds}`, Level.HUD_PAD, Level.HUD_PAD);
+    textAlign(RIGHT, TOP);
+    text(`Score: ${score}`, width - Level.HUD_PAD, Level.HUD_PAD);
+    for (let i = 0; i < lives - 1; i++) {
+      push();
+      translate(
+    Level.LIVES_PAD_LEFT + i * Level.LIVES_GAP,
+    height - Level.LIVES_PAD_BOTTOM
+  );
+  scale(Level.LIVES_SCALE);
+  Magpie.drawMagpie({ rotation: 0, beam: false });
+  pop();
+}
+
 
     // junk
     for (const junk of this.junk) {

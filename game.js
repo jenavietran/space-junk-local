@@ -53,7 +53,12 @@ class Game {
 
     if (junk) {
       this.level.removeJunk(junk);
+      this.magpie.captureJunk(junk);
       this.magpie.enableBeam(false);
+    }
+  if (this.resolveDropoff(delta)) {
+  this.updateScore("dropoff");
+  this.magpie.capturedJunk = null;
     }
   }
 
@@ -78,7 +83,26 @@ class Game {
   }
 
   resolveDropoff(delta) {
-    return false;
+  if (!this.magpie.capturedJunk) {
+  return false;
+    }
+    const inside = this.mothership.pickupContains(
+  this.magpie.physics
+    );
+
+    if (inside) {
+  this.magpie.capturedJunk.dropoffTime += delta;
+} else {
+  this.magpie.capturedJunk.dropoffTime = Math.max(
+    0,
+    this.magpie.capturedJunk.dropoffTime - delta
+  );
+}
+if (this.magpie.capturedJunk.dropoffTime >= Game.JUNK_DROPOFF_TIME_MS) {
+  return true;
+}
+
+return false;
   }
 
   draw() {
@@ -107,8 +131,10 @@ class Game {
   }
 
   updateScore(reason) {
-    // Score updates are part of Phase 4.
+  if (reason === "dropoff") {
+    this.score += 100;
   }
+}
 
   isLevelComplete() {
     return this.level.junk.length === 0 &&

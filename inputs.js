@@ -2,13 +2,13 @@
 /** Organizer class for user input and applying it against the magpie. */
 class Inputs {
   /** Forward thrust */
-  static THRUST = 60;
+  static THRUST = 20;
 
   /** Reverse thrust */
-  static REVERSE_THRUST = 40;
+  static REVERSE_THRUST = 15;
 
   /** Turning speed */
-  static TURN_RATE = 2.4;
+  static TURN_RATE = 1.5;
 
   magpie;
 

@@ -25,6 +25,13 @@ class Magpie {
     drawEverywhere({
       offset: this.physics,
       drawFn: () => {
+      if (this.capturedJunk) {
+      push();
+      rotate(this.physics.rotation);
+      translate(0, Magpie.CARGO_Y);
+      Junk.drawJunk();
+     pop();
+    }
         Magpie.drawMagpie({
           rotation: this.physics.rotation,
           beam: this.beam

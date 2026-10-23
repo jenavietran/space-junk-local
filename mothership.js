@@ -67,6 +67,16 @@ class Mothership {
     pop();
   }
 
+  pickupContains({ x, y }) {
+  const distance = dist(
+    x, y,
+    this.physics.x,
+    this.physics.y
+  );
+
+  return distance <= Mothership.PICKUP_DIAMETER / 2;
+}
+
   move(delta) {
     this.physics.move(delta, { constrain: true });
   }
