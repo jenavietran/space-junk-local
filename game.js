@@ -132,7 +132,7 @@ return false;
 
   updateScore(reason) {
   if (reason === "dropoff") {
-    this.score += 100;
+    this.score += Game.SCORE_DROPOFF;
   }
 }
 
